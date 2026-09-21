@@ -1,6 +1,6 @@
+#import os
+#from pathlib import Path
 from openai import OpenAI
-import os
-from pathlib import Path
 from dotenv import load_dotenv
 
 # initialize environment variables from .env file
