@@ -9,12 +9,14 @@ source = { editable = "." }
 dependencies = [
     { name = "dotenv" },
     { name = "openai" },
+    { name = "python-dotenv" },
 ]
 
 [package.metadata]
 requires-dist = [
     { name = "dotenv", specifier = ">=0.9.9" },
     { name = "openai", specifier = ">=3.16.2" },
+    { name = "python-dotenv", specifier = ">=1.2.3" },
 ]
 
 [[package]]

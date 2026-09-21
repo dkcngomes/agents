@@ -4,11 +4,13 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 # initialize environment variables from .env file
-env_path = Path(__file__).parent.parent/".env"
-result =  load_dotenv(dotenv_path=env_path, override=True)
+# env_path = Path(__file__).parent.parent/".env"
+# result =  load_dotenv(dotenv_path=env_path, override=True)
+# OPEN_API_KEY = os.getenv("OPEN_API_KEY")
+
+load_dotenv()
 
 # constants
-OPEN_API_KEY = os.getenv("OPEN_API_KEY")
 CHAT_MODEL = "gpt-5.6-luna"
 
 client = OpenAI()
