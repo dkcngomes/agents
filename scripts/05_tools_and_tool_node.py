@@ -146,7 +146,7 @@ def _(CALLS, HumanMessage, SystemMessage, get_rainfall, model):
 
     messages = [
         SystemMessage("You are an advisor for Sri Lankan paddy farmers."),
-        HumanMessage("How much rain has Gampaha had this week?"),
+        HumanMessage("How much rain has Gampaha district had this week?"),
     ]
 
     CALLS.clear()
