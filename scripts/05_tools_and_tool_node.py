@@ -48,7 +48,7 @@ def _():
 
     from config import chat_model
     from weather import FORECAST_URL, TIMEZONE, geocode
-    from notifications import send_notification
+    from send_mobile_notify import send_notification
 
     model = chat_model()
     CALLS = []
@@ -221,6 +221,7 @@ def _(observations, send_notification):
     print("   tool_call_id :", observation.tool_call_id, " <- matches the request id")
 
     send_notification(observation.content)  # send the result to your phone
+    print(" >>> Sent the result to your phone via ntfy.sh")
     return
 
 
