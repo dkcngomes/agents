@@ -48,6 +48,7 @@ def _():
 
     from config import chat_model
     from weather import FORECAST_URL, TIMEZONE, geocode
+    from notifications import send_notification
 
     model = chat_model()
     CALLS = []
@@ -64,6 +65,7 @@ def _():
         geocode,
         model,
         tool,
+        send_notification,
     )
 
 
@@ -211,12 +213,14 @@ def _(CALLS, CONF, CONFIG_KEY_RUNTIME, DEFAULT_RUNTIME, ToolNode, get_rainfall, 
 
 
 @app.cell
-def _(observations):
+def _(observations, send_notification):
     observation = observations[0]
     print("the ToolMessage it produced:")
     print("   content      :", observation.content)
     print("   name         :", observation.name)
     print("   tool_call_id :", observation.tool_call_id, " <- matches the request id")
+
+    send_notification(observation.content)  # send the result to your phone
     return
 
 
