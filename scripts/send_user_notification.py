@@ -5,7 +5,15 @@ url = "https://ntfy.sh/weather_i"
 
 @tool
 def send_notification(message: str) -> str:
-    """Send a mobile notification message to the user. You MUST call this tool whenever the user asks to send a notification, notify them, or push an update to their phone."""
+    """Send a mobile notification message to the user. You MUST call this tool
+    whenever the user asks to send a notification, notify them, or push an
+    update to their phone.
+
+    Args:
+        message: The full text body to deliver to the user's phone.
+    """
+
+    print("<<<<< TOOL CALL send_notification >>>>>>>>")
 
     response = requests.post(
         url,
@@ -19,3 +27,4 @@ def send_notification(message: str) -> str:
     else:
         print(f"Failed to send notification: {response.status_code}")
         return f"Failed to send notification: {response.status_code}"
+
