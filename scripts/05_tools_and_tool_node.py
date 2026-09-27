@@ -48,7 +48,7 @@ def _():
 
     from config import chat_model
     from weather import FORECAST_URL, TIMEZONE, geocode
-    from tool_send_mobile_notification import send_notification
+    from send_user_notification import send_notification
 
     model = chat_model()
     CALLS = []
