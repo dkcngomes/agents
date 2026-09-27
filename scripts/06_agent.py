@@ -1,9 +1,12 @@
 import sys
 import marimo as mo
 from pathlib import Path
+import sympy
+
 from langchain.agents import create_agent
 from langchain.tools import tool
 from config import chat_model, rule
+
 
 # Find the Script folder and add it to sys.path so we can import from it
 _repo_root = Path.cwd()

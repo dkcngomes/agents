@@ -48,7 +48,7 @@ def _():
 
     from config import chat_model
     from weather import FORECAST_URL, TIMEZONE, geocode
-    from send_mobile_notify import send_notification
+    from tool_send_mobile_notification import send_notification
 
     model = chat_model()
     CALLS = []
@@ -82,7 +82,7 @@ def _(mo):
 
 
 @app.cell
-def _(CALLS, FORECAST_URL, TIMEZONE, geocode, tool):
+def _(CALLS, FORECAST_URL, TIMEZONE, geocode, tool,):
     import requests
 
     @tool
@@ -141,12 +141,14 @@ def _(mo):
 
 
 @app.cell
-def _(CALLS, HumanMessage, SystemMessage, get_rainfall, model):
-    model_with_tools = model.bind_tools([get_rainfall])
+def _(CALLS, HumanMessage, SystemMessage, get_rainfall, model, send_notification):
+    model_with_tools = model.bind_tools([get_rainfall, send_notification])
 
     messages = [
-        SystemMessage("You are an advisor for Sri Lankan paddy farmers."),
-        HumanMessage("How much rain has Gampaha district had this week?"),
+        SystemMessage("You are an advisor for Sri Lankan paddy farmers. "
+            "When asked to check rainfall and notify the user, you must first call get_rainfall, "
+            "and then use the send_notification tool to send the results to their mobile device."),
+        HumanMessage("How much rain has Gampaha district had this week? Send a notification of the response to the human"),
     ]
 
     CALLS.clear()
@@ -184,7 +186,7 @@ def _(mo):
     arguments, and hands back a `ToolMessage` per call.
 
     ```python
-    tool_node = ToolNode([get_rainfall])
+    tool_node = ToolNode([get_rainfall, send_notification])
     tool_node.invoke(messages)
     ```
     """)
@@ -192,8 +194,8 @@ def _(mo):
 
 
 @app.cell
-def _(CALLS, CONF, CONFIG_KEY_RUNTIME, DEFAULT_RUNTIME, ToolNode, get_rainfall, messages, reply):
-    tool_node = ToolNode([get_rainfall])
+def _(CALLS, CONF, CONFIG_KEY_RUNTIME, DEFAULT_RUNTIME, ToolNode, get_rainfall, messages, reply, send_notification):
+    tool_node = ToolNode([get_rainfall, send_notification])
 
     # ToolNode normally runs inside a graph, and the graph gives it a "runtime" —
     # the object tools use to reach shared state and context. We're calling it on
@@ -213,15 +215,12 @@ def _(CALLS, CONF, CONFIG_KEY_RUNTIME, DEFAULT_RUNTIME, ToolNode, get_rainfall, 
 
 
 @app.cell
-def _(observations, send_notification):
+def _(observations):
     observation = observations[0]
     print("the ToolMessage it produced:")
     print("   content      :", observation.content)
     print("   name         :", observation.name)
     print("   tool_call_id :", observation.tool_call_id, " <- matches the request id")
-
-    send_notification(observation.content)  # send the result to your phone
-    print(" >>> Sent the result to your phone via ntfy.sh")
     return
 
 
