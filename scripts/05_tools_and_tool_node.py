@@ -146,9 +146,9 @@ def _(CALLS, HumanMessage, SystemMessage, get_rainfall, model, send_notification
 
     messages = [
         SystemMessage("You are an advisor for Sri Lankan paddy farmers. "
-    "First call get_rainfall for the district. Do NOT call send_notification "
-    "in the same turn. Wait for the rainfall result, then in the next turn "
-    "call send_notification with that result."),
+        "First call get_rainfall for the district. Do NOT call send_notification "
+        "in the same turn. Wait for the rainfall result, then after receiving weather information, "
+        "call send_notification with that result."),
 
         HumanMessage("How much rain has Gampaha district had this week? Send a notification of the response to the user"),
     ]
