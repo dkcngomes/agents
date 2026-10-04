@@ -45,6 +45,7 @@ def main():
 
     pc = Pinecone(api_key=require("PINECONE_API_KEY"))
 
+    # STEP 1 CREATE INDEX
     if not pc.has_index(INDEX_NAME):
         pc.create_index(
             name=INDEX_NAME,
@@ -54,7 +55,7 @@ def main():
         )
         print(f"Created {INDEX_NAME!r}")
     else:
-        print(f"{INDEX_NAME!r} already exists")
+        print(f"{INDEX_NAME!r} index already exists")
 
     # --- 2 · Documents, Not Strings ---
     mo.md(r"""
@@ -96,7 +97,7 @@ def main():
     store = PineconeVectorStore(index_name=INDEX_NAME, embedding=embed_model)
     store.add_documents(documents)
 
-    print("add_documents did three things you did by hand in an earlier level:")
+    print("add_documents method did three things we did by hand in an earlier level:")
     print("  1. embedded every page_content")
     print("  2. attached the metadata")
     print("  3. upserted the lot into Pinecone")
@@ -119,23 +120,21 @@ def main():
     query = "How much urea for a three month variety, and when?"
     results = store.similarity_search_with_score(query, k=5)
 
+    print("<<<<<<<<>>>>>>>>>>>>>>>>>>>>")
     print("query:", query, "\n")
     for _doc, _score in results:
+
         category = _doc.metadata.get("category", "N/A")
         doc_id = getattr(_doc, "id", "N/A") or "N/A"
-        print(f"  {_score:.4f}  {doc_id:24s} [{category}]")
+
+        print(f"  {_score:.5f}  {doc_id:24s} [{category}]")
+    print("<<<<<<<<>>>>>>>>>>>>>>>>>>>>")
 
     mo.md(r"""
     That interface matters. Anything shaped like a retriever can be dropped
     into a chain — or handed to an agent as a tool, which is exactly what
     lesson 12 does.
-
-    **Keep this index.** Lessons 11 and 12 both read it.
-
-    ---
-    **Next: `11_rag_query_generation.py`**.
     """)
-
 
 if __name__ == "__main__":
     main()
