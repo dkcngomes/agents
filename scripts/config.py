@@ -8,6 +8,8 @@ import os
 import sys
 
 from dotenv import load_dotenv
+from langchain_openai import OpenAIEmbeddings
+from langchain_openai import OpenAIEmbeddings
 
 load_dotenv()
 
@@ -47,8 +49,7 @@ def chat_model(**kwargs):
 
 
 def embeddings():
-    from langchain_openai import OpenAIEmbeddings
-
+    
     require("OPENAI_API_KEY")
     return OpenAIEmbeddings(model=EMBED_MODEL)
 
@@ -59,3 +60,8 @@ def rule(title: str = "") -> None:
     if title:
         print(title)
         print("=" * 78)
+
+def embeddings():
+    
+    require("OPENAI_API_KEY")
+    return OpenAIEmbeddings(model=EMBED_MODEL)
